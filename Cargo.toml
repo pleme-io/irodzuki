@@ -1,0 +1,34 @@
+[package]
+name = "irodzuki"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89.0"
+description = "Irodzuki (色づき) — GPU-app theming system bridging Stylix and wgpu render pipelines"
+homepage = "https://github.com/pleme-io/irodzuki"
+repository = "https://github.com/pleme-io/irodzuki"
+documentation = "https://docs.rs/irodzuki"
+readme = "README.md"
+license = "MIT"
+categories = ["rendering", "gui"]
+keywords = ["theme", "base16", "stylix", "wgpu", "colors"]
+
+[lints.clippy]
+pedantic = "warn"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "z"
+strip = true
+
+[dependencies]
+bytemuck = { version = "1", features = ["derive"] }
+egaku = { git = "https://github.com/pleme-io/egaku" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+tracing = "0.1"
+thiserror = "2.0"
+
+[dev-dependencies]
+tempfile = "3"
