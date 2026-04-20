@@ -393,4 +393,165 @@ mod tests {
         assert_eq!(s.name, s2.name);
         assert_eq!(s.base00.to_hex(), s2.base00.to_hex());
     }
+
+    // ── Negative / error-path coverage for Color::from_hex ──────────
+
+    #[test]
+    fn hex_rejects_short_string() {
+        assert!(Color::from_hex("#ABC").is_err());
+        assert!(Color::from_hex("").is_err());
+    }
+
+    #[test]
+    fn hex_rejects_overlong_string() {
+        assert!(Color::from_hex("#AABBCCDD").is_err());
+    }
+
+    #[test]
+    fn hex_rejects_non_hex_digits() {
+        assert!(Color::from_hex("#ZZZZZZ").is_err());
+        assert!(Color::from_hex("#12345G").is_err());
+    }
+
+    #[test]
+    fn hex_accepts_lowercase_and_missing_prefix() {
+        let a = Color::from_hex("#2e3440").unwrap();
+        let b = Color::from_hex("2E3440").unwrap();
+        // to_hex always normalises to uppercase so the two paths
+        // collapse after the round-trip.
+        assert_eq!(a.to_hex(), b.to_hex());
+    }
+
+    #[test]
+    fn to_hex_always_uppercase() {
+        let c = Color::from_hex("#abcdef").unwrap();
+        let out = c.to_hex();
+        assert_eq!(out, out.to_uppercase());
+    }
+
+    // ── lerp edges + clamping ────────────────────────────────────────
+
+    #[test]
+    fn lerp_clamps_out_of_range() {
+        // t is documented as clamped to [0, 1]; confirm t > 1 yields
+        // `other` (not past it) and t < 0 yields `self`.
+        let a = Color::new(0.0, 0.0, 0.0, 1.0);
+        let b = Color::new(1.0, 1.0, 1.0, 1.0);
+        let past = a.lerp(&b, 5.0);
+        assert!((past.r - 1.0).abs() < 0.001);
+        let before = a.lerp(&b, -5.0);
+        assert!(before.r.abs() < 0.001);
+    }
+
+    #[test]
+    fn lerp_endpoints_are_exact() {
+        let a = Color::new(0.2, 0.4, 0.6, 0.8);
+        let b = Color::new(0.9, 0.1, 0.5, 0.3);
+        assert_eq!(a.lerp(&b, 0.0).r, a.r);
+        assert_eq!(a.lerp(&b, 1.0).r, b.r);
+    }
+
+    #[test]
+    fn lerp_blends_alpha() {
+        // Alpha must lerp just like RGB — a previous implementation
+        // froze alpha at self.a, which broke fade-in animations.
+        let a = Color::new(0.0, 0.0, 0.0, 0.0);
+        let b = Color::new(0.0, 0.0, 0.0, 1.0);
+        let mid = a.lerp(&b, 0.5);
+        assert!((mid.a - 0.5).abs() < 0.001);
+    }
+
+    // ── luminance weights + is_dark boundary ────────────────────────
+
+    #[test]
+    fn luminance_weights_match_bt709() {
+        // BT.709 weights: 0.2126 R + 0.7152 G + 0.0722 B. Pure red
+        // should hit ~0.2126; green dominates; blue is the darkest
+        // primary.
+        let red = Color::new(1.0, 0.0, 0.0, 1.0);
+        let green = Color::new(0.0, 1.0, 0.0, 1.0);
+        let blue = Color::new(0.0, 0.0, 1.0, 1.0);
+        assert!((red.luminance() - 0.2126).abs() < 0.0001);
+        assert!((green.luminance() - 0.7152).abs() < 0.0001);
+        assert!((blue.luminance() - 0.0722).abs() < 0.0001);
+    }
+
+    #[test]
+    fn is_dark_boundary() {
+        // Exactly at 0.5 is documented as NOT dark (strict `<`). A
+        // change to `<=` would flip every boundary pixel.
+        let low = Color::new(0.0, 0.69, 0.0, 1.0); // lum ~0.4935
+        let high = Color::new(0.0, 0.71, 0.0, 1.0); // lum ~0.5078
+        assert!(low.is_dark());
+        assert!(!high.is_dark());
+    }
+
+    // ── ColorScheme completeness + From conversions ─────────────────
+
+    #[test]
+    fn base16_slot_all_has_16_entries_in_order() {
+        assert_eq!(Base16Slot::ALL.len(), 16);
+        assert_eq!(Base16Slot::ALL[0], Base16Slot::Base00);
+        assert_eq!(Base16Slot::ALL[15], Base16Slot::Base0F);
+    }
+
+    #[test]
+    fn color_array_from_conversion_roundtrip() {
+        let arr = [0.1, 0.2, 0.3, 0.4];
+        let c: Color = arr.into();
+        let back: [f32; 4] = c.into();
+        assert_eq!(arr, back);
+    }
+
+    #[test]
+    fn scheme_from_hex_array_propagates_errors() {
+        let mut colors = [
+            "#2E3440", "#3B4252", "#434C5E", "#4C566A", "#D8DEE9", "#E5E9F0", "#ECEFF4",
+            "#ECEFF4", "#BF616A", "#D08770", "#EBCB8B", "#A3BE8C", "#8FBCBB", "#88C0D0",
+            "#81A1C1", "#5E81AC",
+        ];
+        colors[7] = "not-a-color";
+        assert!(ColorScheme::from_hex_array("Bad", &colors).is_err());
+    }
+
+    #[test]
+    fn to_egaku_theme_fills_every_semantic_slot() {
+        let s = ColorScheme::default();
+        let t = s.to_egaku_theme();
+        // Every semantic slot is non-zero on a real scheme (all four
+        // channels zero would be transparent-black — not a valid
+        // paint).
+        assert_ne!(t.background, [0.0; 4]);
+        assert_ne!(t.foreground, [0.0; 4]);
+        assert_ne!(t.accent, [0.0; 4]);
+        assert_ne!(t.error, [0.0; 4]);
+        assert_ne!(t.warning, [0.0; 4]);
+        assert_ne!(t.success, [0.0; 4]);
+        assert_ne!(t.selection, [0.0; 4]);
+        assert_ne!(t.muted, [0.0; 4]);
+        assert_ne!(t.border, [0.0; 4]);
+        assert!(t.spacing > 0.0);
+        assert!(t.font_size > 0.0);
+    }
+
+    #[test]
+    fn ansi_colors_map_base16_to_standard_ordering() {
+        // ANSI ordering: black, red, green, yellow, blue, magenta,
+        // cyan, white, then the bright-8. Irodzuki maps these from
+        // base00, base08, base0B, base0A, base0D, base0E, base0C,
+        // base05 — any drift here appears in every terminal as the
+        // "wrong" colour.
+        let s = ColorScheme::default();
+        let ansi = s.to_ansi_colors();
+        assert_eq!(ansi[0], s.base00.to_array(), "ansi 0 (black)");
+        assert_eq!(ansi[1], s.base08.to_array(), "ansi 1 (red)");
+        assert_eq!(ansi[2], s.base0b.to_array(), "ansi 2 (green)");
+        assert_eq!(ansi[3], s.base0a.to_array(), "ansi 3 (yellow)");
+        assert_eq!(ansi[4], s.base0d.to_array(), "ansi 4 (blue)");
+        assert_eq!(ansi[5], s.base0e.to_array(), "ansi 5 (magenta)");
+        assert_eq!(ansi[6], s.base0c.to_array(), "ansi 6 (cyan)");
+        assert_eq!(ansi[7], s.base05.to_array(), "ansi 7 (white)");
+        // Bright-black pulls from base03 (comments) per the module doc.
+        assert_eq!(ansi[8], s.base03.to_array(), "ansi 8 (bright black)");
+    }
 }
