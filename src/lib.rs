@@ -14,6 +14,7 @@
 
 pub mod error;
 pub mod gpu;
+pub mod presets;
 pub mod scheme;
 pub mod shader;
 

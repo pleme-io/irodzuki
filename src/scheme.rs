@@ -168,6 +168,16 @@ pub struct ColorScheme {
     pub base0d: Color, // blue
     pub base0e: Color, // purple
     pub base0f: Color, // brown
+    /// Curated 16-color ANSI palette override. When `Some`,
+    /// `to_ansi_colors()` returns this directly instead of the
+    /// base16-derived mapping (which deliberately duplicates
+    /// bright/normal pairs for many slots). Terminal-emulator
+    /// presets (Nord, Dracula, ...) ship their upstream-official
+    /// ANSI tables here so consumers don't lose visual fidelity
+    /// when adopting irodzuki. `None` falls back to the base16
+    /// derivation — the default for non-terminal consumers.
+    #[serde(default)]
+    pub ansi_palette: Option<[Color; 16]>,
 }
 
 impl ColorScheme {
@@ -215,7 +225,26 @@ impl ColorScheme {
             base0d: Color::from_hex(colors[13])?,
             base0e: Color::from_hex(colors[14])?,
             base0f: Color::from_hex(colors[15])?,
+            ansi_palette: None,
         })
+    }
+
+    /// Same as [`from_hex_array`] but additionally attaches a curated
+    /// 16-color ANSI palette override (8 normal + 8 bright). Use for
+    /// terminal-emulator presets where the upstream theme ships an
+    /// official ANSI table distinct from a pure base16 derivation.
+    pub fn from_hex_array_with_ansi(
+        name: &str,
+        base16: &[&str; 16],
+        ansi: &[&str; 16],
+    ) -> Result<Self> {
+        let mut scheme = Self::from_hex_array(name, base16)?;
+        let mut palette = [Color::new(0.0, 0.0, 0.0, 1.0); 16];
+        for (i, h) in ansi.iter().enumerate() {
+            palette[i] = Color::from_hex(h)?;
+        }
+        scheme.ansi_palette = Some(palette);
+        Ok(scheme)
     }
 
     /// Convert to egaku Theme.
@@ -259,9 +288,16 @@ impl ColorScheme {
     }
 
     /// ANSI terminal color mapping for terminal emulators (mado).
-    /// Returns 16 colors: 8 normal + 8 bright.
+    /// Returns 16 colors: 8 normal + 8 bright. Prefers the curated
+    /// `ansi_palette` override when set; otherwise falls back to the
+    /// base16-derived mapping (which duplicates bright/normal pairs
+    /// for most slots — useful for non-terminal consumers, lossy for
+    /// terminal emulators).
     #[must_use]
     pub fn to_ansi_colors(&self) -> [[f32; 4]; 16] {
+        if let Some(palette) = self.ansi_palette {
+            return palette.map(|c| c.to_array());
+        }
         [
             // Normal colors (0-7)
             self.base00.to_array(), // black
@@ -306,6 +342,7 @@ impl Default for ColorScheme {
             base0d: Color::new(0.533, 0.753, 0.816, 1.0),
             base0e: Color::new(0.506, 0.631, 0.757, 1.0),
             base0f: Color::new(0.369, 0.506, 0.675, 1.0),
+            ansi_palette: None,
         }
     }
 }
