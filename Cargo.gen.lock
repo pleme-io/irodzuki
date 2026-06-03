@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "cargo_lock_sha256": "dea179c6623f3cf76e658a836902431fcd67812a582b5e7332257e92952131ba",
+  "cargo_lock_sha256": "5804b10be3bdfd40e886b814e3931b3bb73ced806d3c0390e0607dba985ac182",
   "target_resolves": {
     "base": {
       "bitflags-2.12.1": {
@@ -1689,7 +1689,7 @@
     }
   },
   "git_nar_sha256": {
-    "egaku-0.1.0": "sha256-ePVYMlkmM6RhLBcsI/74HijzFQCnJrlbqOgMJv84YWQ="
+    "egaku-0.1.0": "sha256-8z4A1qTfF4Oo5LctMTzthHSutlrpvDwJVnE0sSvq1Co="
   },
   "flake_metadata": {}
 }
