@@ -108,9 +108,9 @@ rec {
       };
       "bitflags" = rec {
         crateName = "bitflags";
-        version = "2.11.1";
+        version = "2.11.0";
         edition = "2021";
-        sha256 = "1cvqijg3rvwgis20a66vfdxannjsxfy5fgjqkaq3l13gyfcj4lf4";
+        sha256 = "1bwjibwry5nfwsfm9kjg2dqx5n5nja9xymwbfl6svnn8jsz6ff44";
         authors = [
           "The Rust Project Developers"
         ];
@@ -194,8 +194,8 @@ rec {
         workspace_member = null;
         src = pkgs.fetchgit {
           url = "https://github.com/pleme-io/egaku";
-          rev = "8a281e756aea63159fb9fbbed1900262c6a0ab43";
-          sha256 = "01jrzk2w2dil6nbqg7d5lcdrsbqg45ixnki5q5flcvhvb09zmdbg";
+          rev = "3b2af556217f4bcadc58b2f6b494f80224a10a9e";
+          sha256 = "0r3173zjc378m1dvj9m700az6a0yz3z26b0p5ihs8cr6b4r5ixbq";
         };
         dependencies = [
           {
@@ -272,9 +272,9 @@ rec {
       };
       "fastrand" = rec {
         crateName = "fastrand";
-        version = "2.4.1";
+        version = "2.3.0";
         edition = "2018";
-        sha256 = "1mnqxxnxvd69ma9mczabpbbsgwlhd6l78yv3vd681453a9s247wz";
+        sha256 = "1ghiahsw1jd68df895cy5h3gzwk30hndidn3b682zmshpgmrx41p";
         authors = [
           "Stjepan Glavina <stjepang@gmail.com>"
         ];
@@ -412,11 +412,14 @@ rec {
         };
         resolvedDefaultFeatures = [ "default-hasher" ];
       };
-      "hashbrown 0.17.1" = rec {
+      "hashbrown 0.16.1" = rec {
         crateName = "hashbrown";
-        version = "0.17.1";
-        edition = "2024";
-        sha256 = "0jmqz7i4yl6cm7rbn0i2ffkfrmwi6xkmzkaldr2v8bcsx2v0jngd";
+        version = "0.16.1";
+        edition = "2021";
+        sha256 = "004i3njw38ji3bzdp9z178ba9x3k0c1pgy8x69pj7yfppv4iq7c4";
+        authors = [
+          "Amanieu d'Antras <amanieu@gmail.com>"
+        ];
         features = {
           "alloc" = [ "dep:alloc" ];
           "allocator-api2" = [ "dep:allocator-api2" ];
@@ -455,9 +458,9 @@ rec {
       };
       "indexmap" = rec {
         crateName = "indexmap";
-        version = "2.14.0";
-        edition = "2024";
-        sha256 = "1na9z6f0d5pkjr1lgsni470v98gv2r7c41j8w48skr089x2yjrnl";
+        version = "2.13.0";
+        edition = "2021";
+        sha256 = "05qh5c4h2hrnyypphxpwflk45syqbzvqsvvyxg43mp576w2ff53p";
         dependencies = [
           {
             name = "equivalent";
@@ -466,7 +469,7 @@ rec {
           }
           {
             name = "hashbrown";
-            packageId = "hashbrown 0.17.1";
+            packageId = "hashbrown 0.16.1";
             usesDefaultFeatures = false;
           }
           {
@@ -504,7 +507,7 @@ rec {
       };
       "irodzuki" = rec {
         crateName = "irodzuki";
-        version = "0.1.2";
+        version = "0.1.3";
         edition = "2024";
         src = lib.cleanSourceWith { filter = sourceFilter;  src = ./.; };
         dependencies = [
@@ -549,9 +552,9 @@ rec {
       };
       "itoa" = rec {
         crateName = "itoa";
-        version = "1.0.18";
+        version = "1.0.17";
         edition = "2021";
-        sha256 = "10jnd1vpfkb8kj38rlkn2a6k02afvj3qmw054dfpzagrpl6achlg";
+        sha256 = "1lh93xydrdn1g9x547bd05g0d3hra7pd1k4jfd2z1pl1h5hwdv4j";
         authors = [
           "David Tolnay <dtolnay@gmail.com>"
         ];
@@ -573,9 +576,9 @@ rec {
       };
       "libc" = rec {
         crateName = "libc";
-        version = "0.2.186";
+        version = "0.2.183";
         edition = "2021";
-        sha256 = "0rnyhzjyqq9x56skkllbjzzzwym3r61lq3l4hqj64v71gw0r3av8";
+        sha256 = "17c9gyia7rrzf9gsssvk3vq9ca2jp6rh32fsw6ciarpn5djlddmm";
         authors = [
           "The Rust Project Developers"
         ];
@@ -605,9 +608,9 @@ rec {
       };
       "log" = rec {
         crateName = "log";
-        version = "0.4.30";
+        version = "0.4.29";
         edition = "2021";
-        sha256 = "1rd6sw3gv9hb93464w7x3sip99zf8sjagm662r2ckg14b1lcavk1";
+        sha256 = "15q8j9c8g5zpkcw0hnd6cf2z7fxqnvsjh3rw5mv5q10r83i34l2y";
         authors = [
           "The Rust Project Developers"
         ];
@@ -628,9 +631,9 @@ rec {
       };
       "memchr" = rec {
         crateName = "memchr";
-        version = "2.8.1";
+        version = "2.8.0";
         edition = "2021";
-        sha256 = "1n448jx01h5z2xknj6x2dhxgr8s8fb717cf6vfqj5lmhkpj7m53b";
+        sha256 = "0y9zzxcqxvdqg6wyag7vc3h0blhdn7hkq164bxyx2vph8zs5ijpq";
         authors = [
           "Andrew Gallant <jamslam@gmail.com>"
           "bluss"
@@ -885,9 +888,9 @@ rec {
       };
       "semver" = rec {
         crateName = "semver";
-        version = "1.0.28";
-        edition = "2021";
-        sha256 = "1kaimrpy876bcgi8bfj0qqfxk77zm9iz2zhn1hp9hj685z854y4a";
+        version = "1.0.27";
+        edition = "2018";
+        sha256 = "1qmi3akfrnqc2hfkdgcxhld5bv961wbk8my3ascv5068mc5fnryp";
         authors = [
           "David Tolnay <dtolnay@gmail.com>"
         ];
@@ -992,9 +995,9 @@ rec {
       };
       "serde_json" = rec {
         crateName = "serde_json";
-        version = "1.0.150";
+        version = "1.0.149";
         edition = "2021";
-        sha256 = "1ffgfhy9kndjnrz8lmy95pr758p2zk8dxv6yi99x0vkkni24w0g8";
+        sha256 = "11jdx4vilzrjjd1dpgy67x5lgzr0laplz30dhv75lnf5ffa07z43";
         authors = [
           "Erick Tryzelaar <erick.tryzelaar@gmail.com>"
           "David Tolnay <dtolnay@gmail.com>"
@@ -1303,9 +1306,9 @@ rec {
       };
       "unicode-segmentation" = rec {
         crateName = "unicode-segmentation";
-        version = "1.13.2";
+        version = "1.12.0";
         edition = "2018";
-        sha256 = "135a26m4a0wj319gcw28j6a5aqvz00jmgwgmcs6szgxjf942facn";
+        sha256 = "14qla2jfx74yyb9ds3d2mpwpa4l4lzb9z57c6d2ba511458z5k7n";
         libName = "unicode_segmentation";
         authors = [
           "kwantam <kwantam@gmail.com>"
@@ -1361,13 +1364,13 @@ rec {
       };
       "wasip2" = rec {
         crateName = "wasip2";
-        version = "1.0.3+wasi-0.2.9";
+        version = "1.0.2+wasi-0.2.9";
         edition = "2021";
-        sha256 = "1mi3w855dz99xzjqc4aa8c9q5b6z1y5c963pkk4cvmr6vdr4c1i0";
+        sha256 = "1xdw7v08jpfjdg94sp4lbdgzwa587m5ifpz6fpdnkh02kwizj5wm";
         dependencies = [
           {
             name = "wit-bindgen";
-            packageId = "wit-bindgen 0.57.1";
+            packageId = "wit-bindgen";
             usesDefaultFeatures = false;
           }
         ];
@@ -1387,7 +1390,7 @@ rec {
         dependencies = [
           {
             name = "wit-bindgen";
-            packageId = "wit-bindgen 0.51.0";
+            packageId = "wit-bindgen";
             usesDefaultFeatures = false;
             features = [ "async" ];
           }
@@ -1395,7 +1398,7 @@ rec {
         devDependencies = [
           {
             name = "wit-bindgen";
-            packageId = "wit-bindgen 0.51.0";
+            packageId = "wit-bindgen";
             usesDefaultFeatures = false;
             features = [ "async-spawn" ];
           }
@@ -1784,7 +1787,7 @@ rec {
         };
         resolvedDefaultFeatures = [ "Win32" "Win32_Foundation" "Win32_Networking" "Win32_Networking_WinSock" "Win32_Storage" "Win32_Storage_FileSystem" "Win32_System" "Win32_System_Diagnostics" "Win32_System_Diagnostics_Debug" "default" ];
       };
-      "wit-bindgen 0.51.0" = rec {
+      "wit-bindgen" = rec {
         crateName = "wit-bindgen";
         version = "0.51.0";
         edition = "2024";
@@ -1810,26 +1813,6 @@ rec {
           "rustc-dep-of-std" = [ "dep:core" "dep:alloc" ];
         };
         resolvedDefaultFeatures = [ "async" "std" ];
-      };
-      "wit-bindgen 0.57.1" = rec {
-        crateName = "wit-bindgen";
-        version = "0.57.1";
-        edition = "2024";
-        sha256 = "0vjk2jb593ri9k1aq4iqs2si9mrw5q46wxnn78im7hm7hx799gqy";
-        libName = "wit_bindgen";
-        authors = [
-          "Alex Crichton <alex@alexcrichton.com>"
-        ];
-        features = {
-          "async-spawn" = [ "async" "dep:futures" "std" ];
-          "bitflags" = [ "dep:bitflags" ];
-          "default" = [ "macros" "realloc" "async" "std" "bitflags" "macro-string" ];
-          "futures-stream" = [ "async" "dep:futures" ];
-          "inter-task-wakeup" = [ "async" ];
-          "macro-string" = [ "wit-bindgen-rust-macro?/macro-string" ];
-          "macros" = [ "dep:wit-bindgen-rust-macro" ];
-          "rustc-dep-of-std" = [ "dep:core" "dep:alloc" ];
-        };
       };
       "wit-bindgen-core" = rec {
         crateName = "wit-bindgen-core";
