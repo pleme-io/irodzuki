@@ -29,9 +29,15 @@ const NORD_BASE16: [&str; 16] = [
     "BF616A", "D08770", "EBCB8B", "A3BE8C",
     "88C0D0", "81A1C1", "B48EAD", "5E81AC",
 ];
+// The OFFICIAL Nord terminal ANSI mapping (nordtheme.com / the ghostty
+// palette). Slots 0/4/6 were previously the brighter frost variants
+// (#2E3440 / #81A1C1 / #8FBCBB), which diverged from every stock Nord
+// terminal: ANSI black is polar-night-1 #3B4252 (NOT the bg #2E3440),
+// normal blue is the deep frost-3 #5E81AC, normal cyan is frost-1 #88C0D0.
+// Fixed so `nord` renders byte-identically to ghostty.
 const NORD_ANSI: [&str; 16] = [
-    "2E3440", "BF616A", "A3BE8C", "EBCB8B",
-    "81A1C1", "B48EAD", "8FBCBB", "E5E9F0",
+    "3B4252", "BF616A", "A3BE8C", "EBCB8B",
+    "5E81AC", "B48EAD", "88C0D0", "E5E9F0",
     "4C566A", "BF616A", "A3BE8C", "EBCB8B",
     "81A1C1", "B48EAD", "8FBCBB", "ECEFF4",
 ];
@@ -208,5 +214,10 @@ mod tests {
         let ansi = nord.to_ansi_colors();
         // nord normal red = #BF616A → (0.749, 0.380, 0.416)
         assert!((ansi[1][0] - 0.749).abs() < 0.01);
+        // Official Nord ANSI (ghostty parity) — slots 0/4/6 pinned so they
+        // can't regress to the old brighter-frost variants.
+        assert!((ansi[0][0] - 0.231).abs() < 0.01, "ansi black must be #3B4252"); // 0x3B/255
+        assert!((ansi[4][2] - 0.675).abs() < 0.01, "ansi blue must be #5E81AC"); // 0xAC/255
+        assert!((ansi[6][1] - 0.753).abs() < 0.01, "ansi cyan must be #88C0D0"); // 0xC0/255
     }
 }
