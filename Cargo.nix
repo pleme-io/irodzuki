@@ -504,7 +504,7 @@ rec {
       };
       "irodzuki" = rec {
         crateName = "irodzuki";
-        version = "0.1.5";
+        version = "0.1.6";
         edition = "2024";
         src = lib.cleanSourceWith { filter = sourceFilter;  src = ./.; };
         dependencies = [
