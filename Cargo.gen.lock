@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "cargo_lock_sha256": "a5640a9c38e723bcede1c5bc267d24698c1a9ac5bafb5ad96fa7a8193b54d2a1",
+  "cargo_lock_sha256": "fc4da77fdf170359355f010f1f7138f3a614abb939adc81d7debf5c81a9660a3",
   "target_resolves": {
     "base": {
       "bitflags-2.13.0": {
@@ -70,7 +70,7 @@
         "build_dependencies": [],
         "features": []
       },
-      "egaku-0.1.0-74b2c4fb0b265cef201ed1775735961eb4efb002": {
+      "egaku-0.1.0-9ea25b6d75be3bbfcfaf559b89ed1b4f6de5a149": {
         "runtime_dependencies": [
           {
             "name": "serde",
@@ -321,7 +321,7 @@
           "std"
         ]
       },
-      "irodzuki-0.1.6": {
+      "irodzuki-0.1.7": {
         "runtime_dependencies": [
           {
             "name": "bytemuck",
@@ -337,7 +337,7 @@
           },
           {
             "name": "egaku",
-            "package_key": "egaku-0.1.0-74b2c4fb0b265cef201ed1775735961eb4efb002",
+            "package_key": "egaku-0.1.0-9ea25b6d75be3bbfcfaf559b89ed1b4f6de5a149",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -1555,7 +1555,7 @@
     "cfg-if-1.0.4": {
       "edition": "2018"
     },
-    "egaku-0.1.0-74b2c4fb0b265cef201ed1775735961eb4efb002": {
+    "egaku-0.1.0-9ea25b6d75be3bbfcfaf559b89ed1b4f6de5a149": {
       "edition": "2024"
     },
     "equivalent-1.0.2": {
@@ -1577,7 +1577,7 @@
     "indexmap-2.14.0": {
       "edition": "2024"
     },
-    "irodzuki-0.1.6": {
+    "irodzuki-0.1.7": {
       "edition": "2024",
       "lib_target": {
         "name": "irodzuki",
@@ -1689,7 +1689,7 @@
     }
   },
   "git_nar_sha256": {
-    "egaku-0.1.0-74b2c4fb0b265cef201ed1775735961eb4efb002": "sha256-4/7GXnjD2IRp/LCoG/uWBBQOEarcchU5gSIkTgv7AvE="
+    "egaku-0.1.0-9ea25b6d75be3bbfcfaf559b89ed1b4f6de5a149": "sha256-sJ/TqYaux6WgPcD0CYTsziuKDL3WUw5HeB4LO38zV2A="
   },
   "flake_metadata": {}
 }
