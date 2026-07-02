@@ -23,7 +23,14 @@ strip = true
 
 [dependencies]
 bytemuck = { version = "1", features = ["derive"] }
-egaku = { git = "https://github.com/pleme-io/egaku" , version = "0.1" }
+# REV-PINNED to the shikumi-family pin (see mado Cargo.toml [patch.crates-io]
+# family block): an unpinned egaku here floats to branch HEAD on any consumer
+# `cargo update`, splitting the graph into TWO egaku revs (this crate's chain
+# vs the consumer's family-pinned one) — a split-rev duplicate that broke
+# every mado nix build with E0463 "can't find crate for irodzuki"
+# (v0.1.49..v0.1.53, bisected 2026-07-02). Advance ONLY together with the
+# family pin.
+egaku = { git = "https://github.com/pleme-io/egaku", rev = "81d168190061c452d115f58f186429b84f489be8" , version = "0.1" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1"
 serde_yaml = "0.9"
