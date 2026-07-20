@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "cargo_lock_sha256": "2fbc0fd34ef57ab0b3aed883666c3af227d6f4fe62f584369284bb66a61e191e",
+  "cargo_lock_sha256": "1363a9e6f714b9f5540150fdd07c82ce2180f8309419628195626b96c9b93384",
   "target_resolves": {
     "base": {
       "bitflags-2.13.1": {
@@ -310,7 +310,7 @@
           "std"
         ]
       },
-      "irodzuki-0.1.9": {
+      "irodzuki-0.1.10": {
         "runtime_dependencies": [
           {
             "name": "bytemuck",
@@ -1653,7 +1653,7 @@
     "indexmap-2.14.0": {
       "edition": "2024"
     },
-    "irodzuki-0.1.9": {
+    "irodzuki-0.1.10": {
       "edition": "2024",
       "lib_target": {
         "name": "irodzuki",
