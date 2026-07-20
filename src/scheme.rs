@@ -322,27 +322,36 @@ impl ColorScheme {
 }
 
 impl Default for ColorScheme {
+    /// The default scheme IS `presets::nord()`'s base16 — derived, never
+    /// re-typed.
+    ///
+    /// This used to be a hand-typed table of 3dp float literals, and it had
+    /// silently gone wrong: when `presets::nord()`'s base16 was corrected, this
+    /// copy was not, so the two Nords in this one crate disagreed on FOUR slots
+    /// — base07, base0c, base0d, base0e. The shape of the drift shows what
+    /// happened: the frost band sat one slot low, base07 duplicated base06
+    /// (`ECEFF4`), and Nord's purple `B48EAD` was **absent from base0e
+    /// entirely**. Anything calling `ColorScheme::default()` therefore rendered
+    /// a Nord that was missing a colour and duplicated another.
+    ///
+    /// Deriving instead of copying is what makes that class unrepresentable
+    /// here: there is now exactly one Nord base16 in this crate
+    /// (`presets::NORD_BASE16`), so a future correction cannot land in one copy
+    /// and miss the other. No cycle — `presets::nord()` builds through
+    /// `from_hex_array_with_ansi`, which never consults `Default`.
+    ///
+    /// Deliberately NOT inherited from the preset: `name`, `author`, and
+    /// `ansi_palette`. The preset is named "nord" and carries the official
+    /// terminal ANSI override; this default has always been "Nord" / "Arctic
+    /// Ice Studio" with `ansi_palette: None`, and callers may key on those. The
+    /// bug was the sixteen colours, so the fix is the sixteen colours and
+    /// nothing else.
     fn default() -> Self {
         Self {
             name: "Nord".into(),
             author: "Arctic Ice Studio".into(),
-            base00: Color::new(0.180, 0.204, 0.251, 1.0),
-            base01: Color::new(0.231, 0.259, 0.322, 1.0),
-            base02: Color::new(0.263, 0.298, 0.369, 1.0),
-            base03: Color::new(0.298, 0.337, 0.416, 1.0),
-            base04: Color::new(0.847, 0.871, 0.914, 1.0),
-            base05: Color::new(0.898, 0.914, 0.941, 1.0),
-            base06: Color::new(0.925, 0.937, 0.957, 1.0),
-            base07: Color::new(0.925, 0.937, 0.957, 1.0),
-            base08: Color::new(0.749, 0.380, 0.416, 1.0),
-            base09: Color::new(0.816, 0.529, 0.439, 1.0),
-            base0a: Color::new(0.922, 0.796, 0.545, 1.0),
-            base0b: Color::new(0.639, 0.745, 0.549, 1.0),
-            base0c: Color::new(0.561, 0.737, 0.733, 1.0),
-            base0d: Color::new(0.533, 0.753, 0.816, 1.0),
-            base0e: Color::new(0.506, 0.631, 0.757, 1.0),
-            base0f: Color::new(0.369, 0.506, 0.675, 1.0),
             ansi_palette: None,
+            ..crate::presets::nord()
         }
     }
 }
@@ -350,6 +359,59 @@ impl Default for ColorScheme {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The two Nords in this crate must never disagree again.
+    ///
+    /// They did: `Default` carried a hand-typed float copy that missed the
+    /// correction landed in `presets::NORD_BASE16`, leaving base07/0c/0d/0e
+    /// wrong — base07 duplicating base06 and Nord's purple `B48EAD` absent.
+    /// This asserts the sixteen base colours slot-for-slot rather than
+    /// spot-checking, because the failure mode was a one-slot SHIFT: any test
+    /// sampling only a few slots would have passed while the band was skewed.
+    ///
+    /// It deliberately asserts only base00..base0f — `name`, `author` and
+    /// `ansi_palette` are intentionally NOT inherited from the preset, so
+    /// pinning them here would pin the wrong contract.
+    #[test]
+    fn default_base16_is_exactly_the_nord_preset() {
+        let d = ColorScheme::default();
+        let p = crate::presets::nord();
+        let pairs: [(&str, Color, Color); 16] = [
+            ("base00", d.base00, p.base00), ("base01", d.base01, p.base01),
+            ("base02", d.base02, p.base02), ("base03", d.base03, p.base03),
+            ("base04", d.base04, p.base04), ("base05", d.base05, p.base05),
+            ("base06", d.base06, p.base06), ("base07", d.base07, p.base07),
+            ("base08", d.base08, p.base08), ("base09", d.base09, p.base09),
+            ("base0a", d.base0a, p.base0a), ("base0b", d.base0b, p.base0b),
+            ("base0c", d.base0c, p.base0c), ("base0d", d.base0d, p.base0d),
+            ("base0e", d.base0e, p.base0e), ("base0f", d.base0f, p.base0f),
+        ];
+        // Collect every mismatch before asserting: one run should report the
+        // whole skew, not just the first slot of it.
+        let bad: Vec<String> = pairs
+            .iter()
+            .filter(|(_, a, b)| a.to_array() != b.to_array())
+            .map(|(n, a, b)| format!("{n}: default={:?} preset={:?}", a.to_array(), b.to_array()))
+            .collect();
+        assert!(bad.is_empty(), "{} slot(s) diverge:\n  {}", bad.len(), bad.join("\n  "));
+    }
+
+    /// The specific values the drift destroyed — pinned as literals so this
+    /// still fails if BOTH tables were ever corrupted identically (which the
+    /// derive-based test above could not detect).
+    #[test]
+    fn default_has_nords_purple_and_distinct_base07() {
+        let d = ColorScheme::default();
+        // `to_hex()` emits the leading '#'.
+        assert_eq!(d.base0e.to_hex().to_uppercase(), "#B48EAD", "base0e must be Nord's purple");
+        assert_ne!(
+            d.base07.to_array(), d.base06.to_array(),
+            "base07 must not duplicate base06 (the exact shape of the old drift)"
+        );
+        assert_eq!(d.base07.to_hex().to_uppercase(), "#8FBCBB");
+        assert_eq!(d.base0c.to_hex().to_uppercase(), "#88C0D0");
+        assert_eq!(d.base0d.to_hex().to_uppercase(), "#81A1C1");
+    }
 
     #[test]
     fn color_from_hex() {
