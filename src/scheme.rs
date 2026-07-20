@@ -340,17 +340,34 @@ impl Default for ColorScheme {
     /// and miss the other. No cycle — `presets::nord()` builds through
     /// `from_hex_array_with_ansi`, which never consults `Default`.
     ///
-    /// Deliberately NOT inherited from the preset: `name`, `author`, and
-    /// `ansi_palette`. The preset is named "nord" and carries the official
-    /// terminal ANSI override; this default has always been "Nord" / "Arctic
-    /// Ice Studio" with `ansi_palette: None`, and callers may key on those. The
-    /// bug was the sixteen colours, so the fix is the sixteen colours and
-    /// nothing else.
+    /// The official terminal ANSI override IS inherited, and that is
+    /// load-bearing rather than incidental.
+    ///
+    /// A first pass at this fix kept `ansi_palette: None` on the theory that
+    /// touching only the sixteen colours was the smallest correct change. It
+    /// was not: `to_ansi_colors()` falls back to deriving the grid from base16
+    /// when there is no override, and in *official* base16-nord `base07` is the
+    /// frost teal `8FBCBB`, not a white. So correcting base07 — while leaving
+    /// the override off — would have silently turned **ANSI bright-white teal**
+    /// for every consumer that renders a terminal grid from the default
+    /// (`hibiki` does exactly this). Fixing the palette would have broken the
+    /// terminal.
+    ///
+    /// That mismatch is the whole reason `presets::NORD_ANSI` exists: base16's
+    /// slot semantics and a terminal's ANSI semantics genuinely disagree about
+    /// Nord, so the preset carries an explicit ghostty-parity mapping (ANSI 7 =
+    /// `E5E9F0`, ANSI 15 = `ECEFF4`). Inheriting it means every consumer of the
+    /// default now gets that mapping instead of a base16-derived approximation
+    /// — strictly better than both the old table and the naive fix.
+    ///
+    /// Still NOT inherited: `name` and `author`. The preset is named "nord";
+    /// this default has always presented as "Nord" / "Arctic Ice Studio", and
+    /// consumers key on it (`namimado/src/theme.rs:322` reads
+    /// `ColorScheme::default().name` directly).
     fn default() -> Self {
         Self {
             name: "Nord".into(),
             author: "Arctic Ice Studio".into(),
-            ansi_palette: None,
             ..crate::presets::nord()
         }
     }
@@ -470,11 +487,30 @@ mod tests {
 
     #[test]
     fn scheme_ansi_colors() {
-        let s = ColorScheme::default();
+        // Explicitly override-free: this exercises the base16 DERIVATION path.
+        // It used to lean on `default()` happening to have no ansi_palette,
+        // which stopped being true when the default gained the official
+        // ghostty-parity override.
+        let s = ColorScheme { ansi_palette: None, ..ColorScheme::default() };
         let ansi = s.to_ansi_colors();
         assert_eq!(ansi.len(), 16);
         // Black should be base00
         assert_eq!(ansi[0], s.base00.to_array());
+    }
+
+    /// The default carries the official terminal mapping, NOT the base16
+    /// derivation — the distinction `hibiki`'s terminal grid depends on.
+    #[test]
+    fn default_ansi_is_the_official_override_not_the_base16_derivation() {
+        let d = ColorScheme::default();
+        assert!(d.ansi_palette.is_some(), "default must carry the ghostty-parity ANSI mapping");
+        let ansi = d.to_ansi_colors();
+        // ANSI 15 (bright white) must be a WHITE. Deriving from base16 would
+        // put base07 here, which in official Nord is the frost teal 8FBCBB —
+        // the exact regression this pins shut.
+        assert_eq!(ansi[15], Color::from_hex("ECEFF4").unwrap().to_array(), "ansi 15 (bright white)");
+        assert_eq!(ansi[7], Color::from_hex("E5E9F0").unwrap().to_array(), "ansi 7 (white)");
+        assert_ne!(ansi[15], d.base07.to_array(), "must NOT be the base16 derivation");
     }
 
     #[test]
@@ -640,7 +676,8 @@ mod tests {
         // base00, base08, base0B, base0A, base0D, base0E, base0C,
         // base05 — any drift here appears in every terminal as the
         // "wrong" colour.
-        let s = ColorScheme::default();
+        // Override-free on purpose — this test is about the DERIVATION rule.
+        let s = ColorScheme { ansi_palette: None, ..ColorScheme::default() };
         let ansi = s.to_ansi_colors();
         assert_eq!(ansi[0], s.base00.to_array(), "ansi 0 (black)");
         assert_eq!(ansi[1], s.base08.to_array(), "ansi 1 (red)");
