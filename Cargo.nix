@@ -176,14 +176,9 @@ rec {
       };
       "egaku" = rec {
         crateName = "egaku";
-        version = "0.1.3";
+        version = "0.1.9";
         edition = "2024";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/pleme-io/egaku";
-          rev = "81d168190061c452d115f58f186429b84f489be8";
-          sha256 = "11vb9da48bjj34w3kd2sqsh5qp43b9gbkmf8p41n7qw3qfdykm5h";
-        };
+        sha256 = "09s3hqpapraajiwlp2k6lw0s7r3c0385ca3cgj4xbjifsxffxsjc";
         dependencies = [
           {
             name = "serde";
@@ -394,7 +389,7 @@ rec {
       };
       "irodzuki" = rec {
         crateName = "irodzuki";
-        version = "0.1.10";
+        version = "0.1.11";
         edition = "2024";
         src = lib.cleanSourceWith { filter = sourceFilter;  src = ./.; };
         dependencies = [

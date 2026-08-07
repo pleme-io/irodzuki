@@ -1,6 +1,6 @@
 [package]
 name = "irodzuki"
-version = "0.1.10"
+version = "0.1.11"
 edition = "2024"
 rust-version = "1.89.0"
 description = "Irodzuki (色づき) — GPU-app theming system bridging Stylix and wgpu render pipelines"

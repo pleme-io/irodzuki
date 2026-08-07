@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "cargo_lock_sha256": "9533c4ac040df2b43016b3f497bef24afdb6e6019814395de169e92abcfb00cd",
+  "cargo_lock_sha256": "f50f74f6e3351b2786d11d8b777bf2765bc7dbe7829a68f646f2128a4366f8e4",
   "manifest_sha256": {
-    "Cargo.toml": "16deea5288ddc6e0bedb5c8fa95d35bfd4f13018156909a853027fcb7a24f3af"
+    "Cargo.toml": "5504e9435fe58806c510562c8951ab5d8950d8e00506121a092ff9a70b439baa"
   },
   "target_resolves": {
     "base": {
@@ -17,7 +17,7 @@
         "runtime_dependencies": [
           {
             "name": "bytemuck_derive",
-            "package_key": "bytemuck_derive-1.11.0",
+            "package_key": "bytemuck_derive-1.12.0",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -32,7 +32,7 @@
           "derive"
         ]
       },
-      "bytemuck_derive-1.11.0": {
+      "bytemuck_derive-1.12.0": {
         "runtime_dependencies": [
           {
             "name": "proc_macro2",
@@ -56,7 +56,7 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-2.0.119",
+            "package_key": "syn-3.0.3",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -140,7 +140,7 @@
         "runtime_dependencies": [
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -150,7 +150,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -160,7 +160,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -197,7 +197,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -207,7 +207,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -217,7 +217,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -227,7 +227,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -237,7 +237,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -247,7 +247,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -257,7 +257,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -267,7 +267,7 @@
           },
           {
             "name": "libc",
-            "package_key": "libc-0.2.186",
+            "package_key": "libc-0.2.189",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -313,7 +313,7 @@
           "std"
         ]
       },
-      "irodzuki-0.1.10": {
+      "irodzuki-0.1.11": {
         "runtime_dependencies": [
           {
             "name": "bytemuck",
@@ -398,7 +398,7 @@
         "build_dependencies": [],
         "features": []
       },
-      "libc-0.2.186": {
+      "libc-0.2.189": {
         "runtime_dependencies": [],
         "build_dependencies": [],
         "features": [
@@ -540,7 +540,7 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-3.0.2",
+            "package_key": "syn-3.0.3",
             "kind": "normal",
             "features": [
               "clone-impls",
@@ -701,8 +701,6 @@
         "build_dependencies": [],
         "features": [
           "clone-impls",
-          "default",
-          "derive",
           "extra-traits",
           "full",
           "parsing",
@@ -711,7 +709,7 @@
           "visit-mut"
         ]
       },
-      "syn-3.0.2": {
+      "syn-3.0.3": {
         "runtime_dependencies": [
           {
             "name": "proc_macro2",
@@ -850,7 +848,7 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-3.0.2",
+            "package_key": "syn-3.0.3",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -1042,7 +1040,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1052,7 +1050,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1129,7 +1127,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1139,7 +1137,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1247,7 +1245,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1257,7 +1255,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1353,7 +1351,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1363,7 +1361,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1440,7 +1438,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1450,7 +1448,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1558,7 +1556,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1568,7 +1566,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.186",
+                "package_key": "libc-0.2.189",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1627,7 +1625,7 @@
     "bytemuck-1.25.2": {
       "edition": "2018"
     },
-    "bytemuck_derive-1.11.0": {
+    "bytemuck_derive-1.12.0": {
       "edition": "2018",
       "proc_macro": true
     },
@@ -1656,7 +1654,7 @@
     "indexmap-2.14.0": {
       "edition": "2024"
     },
-    "irodzuki-0.1.10": {
+    "irodzuki-0.1.11": {
       "edition": "2024",
       "lib_target": {
         "name": "irodzuki",
@@ -1666,7 +1664,7 @@
     "itoa-1.0.18": {
       "edition": "2021"
     },
-    "libc-0.2.186": {
+    "libc-0.2.189": {
       "edition": "2021",
       "build_script": "build.rs"
     },
@@ -1719,7 +1717,7 @@
     "syn-2.0.119": {
       "edition": "2021"
     },
-    "syn-3.0.2": {
+    "syn-3.0.3": {
       "edition": "2021"
     },
     "tempfile-3.27.0": {
