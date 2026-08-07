@@ -36,8 +36,9 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 
 [[package]]
 name = "egaku"
-version = "0.1.3"
-source = "git+https://github.com/pleme-io/egaku?rev=81d168190061c452d115f58f186429b84f489be8#81d168190061c452d115f58f186429b84f489be8"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ceaee5cd72ecad5897c6c2856d0006ce4a301a7668a4b79944ae5ab2e864327"
 dependencies = [
  "serde",
  "thiserror",
