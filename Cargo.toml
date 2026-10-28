@@ -34,7 +34,7 @@ bytemuck = { version = "1", features = ["derive"] }
 egaku = "0.1.20"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1"
-serde_yaml = "0.9"
+serde_norway = "0.9"
 tracing = "0.1"
 thiserror = "2.0"
 
